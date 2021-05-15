@@ -1,7 +1,7 @@
 // ELIAS, DU KANNST SPAETER ALLE KOMMENTARE VON RUSSISCH NACH DEUTSCH UEBERSATZEN, WEN DU HIER WAS VERSTEHEN MOECHTEST. SRY
 
 // ДЛЯ ПОНИМАНИЯ ПРОГРАММЫ НУЖНЫ index.html И style.css!!!
-// ДЛЯ РАБОТЫ JS B CSS НУЖНО ПОМЕНЯТЬ ОТНОСИТЕЛЬНЫЕ ПУТИ К ФАЙЛАМ(на строчках 5 и 263 в index.html) НА СВОИ 
+// ДЛЯ РАБОТЫ JS И CSS НУЖНО ПОМЕНЯТЬ ОТНОСИТЕЛЬНЫЕ ПУТИ К ФАЙЛАМ(на строчках 6 и 263 в index.html) НА СВОИ 
 
 //ПРОШУ ПРОЩЕНИЕ ЗА ПЛОХИЕ КОМЕНТАРИИ НА АНГЛИЙСКОМ ПЕРЕД ВСЕМИ КТО БУДЕТ ЭТО ЧИТАТЬ
 
