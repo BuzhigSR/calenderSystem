@@ -46,24 +46,22 @@ $(".createButton").click(function(){
 		timeMassive[dayButton - 1][(numberOfEvent[dayButton - 1] * 2) - 2] = Number(fromTime);
 		timeMassive[dayButton - 1][(numberOfEvent[dayButton - 1] * 2) - 1] = Number(toTime);
 		alert("MASSIVE DATA: " + timeMassive[dayButton - 1][(numberOfEvent[dayButton - 1] * 2) - 2] + " " + timeMassive[dayButton - 1][(numberOfEvent[dayButton - 1] * 2) - 1]);
-		//EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART ---
-		//EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART ---
-		//EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART --- EXPERIMENTAL PART ---
-		checking = false; 
+		//ДАЛЬШЕ ПРОВЕРКА НА ПЕРЕСЕЧЕНИЕ НОВОГО ИВЕНТА СО СТАРЫМИ ДЛЯ ЕГО ВОЗМОЖНОГО СДВИГА В ПРАВО
+		checking = false; // надо сбить checking перед проверкое(подробнее на строке 66) 
         alert("here starts the algorytm, for resultd look at log console!")
 		if(Number(numberOfEvent[dayButton - 1]) > 1){ // проверка не является ли ивент первым в своём дне, иначе алгоритм крашнется, так как не найдёт в массиве ивент раньше
       		console.log("START---START---START---START---START---START---");
 			for(let i = 1; i < Number(numberOfEvent[dayButton - 1]); i++){// переборвсех ивентов которые были до того, который создаётся
         		//CHECKING OF START AND END TIME OF NEW EVENT
-				for(let y = Math.round(timeMassive[dayButton - 1][numberOfEvent[dayButton - 1] * 2 - 2]); y <= Math.round(timeMassive[dayButton - 1][numberOfEvent[dayButton - 1] * 2 - 1]); y++){
+				for(let y = Math.round(timeMassive[dayButton - 1][numberOfEvent[dayButton - 1] * 2 - 2]); y <= Math.round(timeMassive[dayButton - 1][numberOfEvent[dayButton - 1] * 2 - 1]); y++){// перебор нового ивента с времени его начала до времени его конца
           			//CHECKING OF START AND END TIMES OF OLD EVENTS
-          			for(let t = Math.round(timeMassive[dayButton - 1][i * 2 - 2]); t <= Math.round(timeMassive[dayButton - 1][i * 2 - 1]); t++){
+          			for(let t = Math.round(timeMassive[dayButton - 1][i * 2 - 2]); t <= Math.round(timeMassive[dayButton - 1][i * 2 - 1]); t++){// перебор всех ивентов до нового с их времени начала до их времени конца
             			console.log(y);
             			console.log(t);
-            			if(y == t){
+            			if(y == t){// проверка пересеклись ли где-то ивенты по времени
               				checking = true;
             			}else{
-              				if(checking == true){
+              				if(checking == true){// возможно ивенты уже пересиклись в середине перебора, но последняя проверка будет без их пересечений поэтому здесь стоит проверка, был ли checking == true во время этой проверки
                 			checking = true;
               			}else{
                 			checking = false;
@@ -74,37 +72,39 @@ $(".createButton").click(function(){
 		}
       	console.log(checking);
       	console.log("--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---");
-		if(checking == true){
+		if(checking == true){// создание ивента требуюзего сдвига
 			//CREATING THE MAIN DIV --- CREATING THE MAIN DIV ---
-			let event = document.createElement("div");
-			event.className = "eventClass";
-        	event.classList.add("event" + Number(dayButton));
-			event.id = numberOfEvent[dayButton - 1] + "event";
-			event.style.marginTop = Number(fromTime) * 50 + 50 + "px";
-			event.style.marginLeft = 250 + "px";
-			if(Number(fromTime) == Number(toTime)){
+			let event = document.createElement("div"); // создание ивента
+			event.className = "eventClass"; // приписание класса
+        	event.classList.add("event" + Number(dayButton)); // добавление класса для идентификации(к сожалению одному эллементу нельзя дать 2 id)
+			event.id = numberOfEvent[dayButton - 1] + "event"; // придаём id для возможности удаления ивента в будуещем
+			event.style.marginTop = Number(fromTime) * 50 + 50 + "px"; // задаём отстып сверху для ивента(что-бы его было правильно видно на таёмлайне)
+			event.style.marginLeft = 250 + "px"; // задаём тот самый отступ, для того что-бы было видно более старый ивент
+			if(Number(fromTime) == Number(toTime)){// если время начала и конца ивента не задали, или они полностью одинаковые задаётся определенная высота
 				event.style.height = 25 + "px";
-			}else{
+			}else{// иначе ширина задаётся из данных полученных от пользователя
 				event.style.height = (Number(toTime) - Number(fromTime)) * 50 + "px";
 			}
 			//ADDING THE NAME OF NOTE TO MAIN DIV ---
-			let nameOfEvent = document.createElement("p")
+			let nameOfEvent = document.createElement("p") 
 			let textOfNameOfEvent = document.createTextNode(name);
 			//CREATING OF DELETE BUTTON --- CREATING OF DELETE BUTTON ---
-			let del = document.createElement("div");
-			del.id = numberOfEvent[dayButton - 1];
-			if(name == ""){
-				del.className = "deleteEventButton";
+			let del = document.createElement("div"); // создание кнопки для удаления ивента
+			del.id = numberOfEvent[dayButton - 1]; // задаём кнопке id 
+			if(name == ""){// если имя ивенту не задали, то отступы должны немного отличаться
+				del.className = "deleteEventButton"; 
 				del.style.marginTop = -10 + "px";
 			}else{
 				del.className = "deleteEventButton";
 			}
 			//ALL APPENDCHILDS --- ALL APPENDCHILDS --- ALL APPENDCHILDS ---
+			// приписывание всех дочерних эллементов к их родителям
 			document.body.appendChild(event);
 			event.appendChild(nameOfEvent);
 			nameOfEvent.appendChild(textOfNameOfEvent);
 			event.appendChild(del);
 		}else{
+			// ВСЁ ТО ЖЕ САМОЙ КАК НА СТРОКАХ С 76 ПО 106 КРОМЕ ОТСУТСТВИЯ СТРОКИ 82(строка для отстыпа с права)--------------
 			//CREATING THE MAIN DIV --- CREATING THE MAIN DIV ---
 			let event = document.createElement("div");
 			event.className = "eventClass";
@@ -135,6 +135,7 @@ $(".createButton").click(function(){
 			event.appendChild(del);
 		}
 	}else{
+		//ВСЁ ТО ЖЕ САМОЕ, ЧТО И НА СТРОКАХ С 108 ПО 136 ----------------------------------------------------------------
 		console.log("FIRST NOTE");
 		//CREATING THE MAIN DIV --- CREATING THE MAIN DIV ---
 		let event = document.createElement("div");
@@ -166,20 +167,25 @@ $(".createButton").click(function(){
 		event.appendChild(del);
 	}
 	//REMOVING SYSTEM --- REMOVING SYSTEM --- REMOVING SYSTEM ---
+	// система для кдаления ивентов по нажатию кнопки справа сверху ивента
 	$(".deleteEventButton").click(function(){
-		delEvent = $(this).attr('id');
-		document.getElementById(Number(delEvent) + "event").remove();
-		numberOfEvent[dayButton - 1] = numberOfEvent[dayButton - 1] - 1;
+		delEvent = $(this).attr('id');// получаем id кнопки
+		document.getElementById(Number(delEvent) + "event").remove();// удаляем эллемент(посути строки 172 и 173 можно совместить, но так легче запутаться)
+		numberOfEvent[dayButton - 1] = numberOfEvent[dayButton - 1] - 1; // скидываем счетчик на один назад
 	})
 }
 })
-$(".day").click(function(){
+$(".day").click(function(){ // проверка на смену дня 
   //GETTING OF THE DAY NUMBER
-  dayButton = $(this).attr('id');
+  dayButton = $(this).attr('id'); // смена номера дня в переменной
   console.log(dayButton); 
 
   // HIDEING OF ALL EVENTS AND CALENDERS
-  $(".eventClass").hide();
+  $(".eventClass").hide();// прячем все ивенты 
   // SHOWING OF EVENT AND CALENDER THAT IS CHOSEN
-  $(".event" + Number(dayButton)).show();
+  $(".event" + Number(dayButton)).show(); // показываем все ивенты предналежащие выбранному дню
 })
+
+
+//MADE BY Andrei Buzhyhayeu
+//gmail: buzhig.senior@gmail.com
