@@ -301,12 +301,21 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 
 .deleteEventButton:hover{
 	background-color: purple;
-}
+} 
 
 .days{
   position: absolute;
   background-color: grey;
-  margin-left: 500px;
+  margin-left: 400px;
+  margin-top: 300px;
+  width: 20px;
+  height: 420px;
+}
+
+.days2{
+  position: absolute;
+  background-color: grey;
+  margin-left: 420px;
   margin-top: 300px;
   width: 20px;
   height: 420px;
